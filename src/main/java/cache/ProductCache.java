@@ -10,19 +10,21 @@ public class ProductCache {
   // List of products
   private ArrayList<Product> products;
 
-  // Time cache should live
+  // Time cache should live. Definere en variabel vi kalder ttl.
   private long ttl;
 
   // Sets when the cache has been created
   private long created;
 
+  // Vi har her lavet en konstruktør, hvor vi henter alle produkterne fra config klassen
   public ProductCache() {
     this.ttl = Config.getProductTtl();
   }
 
+  // Laver en metode, som indeholder produkterne. Finde ud af hvor getProducts skal kaldes henne.
   public ArrayList<Product> getProducts(Boolean forceUpdate) {
 
-    // If we whis to clear cache, we can set force update.
+    // If we wish to clear cache, we can set force update.
     // Otherwise we look at the age of the cache and figure out if we should update.
     // If the list is empty we also check for new products
     if (forceUpdate

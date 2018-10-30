@@ -30,9 +30,10 @@ public class OrderEndpoints {
     // TODO: Add Encryption to JSON (FIXED)
     // We convert the java object to json with GSON library imported in Maven
     String json = new Gson().toJson(order);
-    /* json bruges til dataudvikling, og gør at vi mennesker kan læse det. Derfor json =.
-    Encryption er klassen hvor kryptering finder sted
-    XOR laver værdierne om til binære tal.
+    /*
+    - Json bruges til dataudvikling, og gør at vi mennesker kan læse det. Derfor json =.
+    - Encryption er klassen hvor kryptering finder sted
+    - XOR laver værdierne om til binære tal.
     */
     json = Encryption.encryptDecryptXOR(json);
 
@@ -49,9 +50,15 @@ public class OrderEndpoints {
     // Call our controller-layer in order to get the order from the DB
     ArrayList<Order> orders = OrderController.getOrders();
 
-    // TODO: Add Encryption to JSON
+    // TODO: Add Encryption to JSON (FIXED)
     // We convert the java object to json with GSON library imported in Maven
     String json = new Gson().toJson(orders);
+    /*
+    - Json bruges til dataudvikling, og gør at vi mennesker kan læse det. Derfor json =.
+    - Encryption er klassen hvor kryptering finder sted.
+    - XOR laver værdierne om til binære tal.
+    */
+    json = Encryption.encryptDecryptXOR(json);
 
     // Return a response with status 200 and JSON as type
     return Response.status(200).type(MediaType.TEXT_PLAIN_TYPE).entity(json).build();
