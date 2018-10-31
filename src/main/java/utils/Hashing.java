@@ -7,12 +7,14 @@ import org.bouncycastle.util.encoders.Hex;
 
 public final class Hashing {
 
-  // TODO: You should add a salt and make this secure
+  // TODO: You should add a salt and make this secure (FIXED)
   public static String md5(String rawString) {
     try {
 
       // We load the hashing algoritm we wish to use.
       MessageDigest md = MessageDigest.getInstance("MD5");
+      // Henter parameteret rawString og tilføjer grgioujgjio til kodeordet.
+      rawString = rawString + "grgioujgjio";
 
       // We convert to byte array
       byte[] byteArray = md.digest(rawString.getBytes());
@@ -37,11 +39,13 @@ public final class Hashing {
     return null;
   }
 
-  // TODO: You should add a salt and make this secure
+  // TODO: You should add a salt and make this secure (FIXED)
   public static String sha(String rawString) {
     try {
       // We load the hashing algoritm we wish to use.
       MessageDigest digest = MessageDigest.getInstance("SHA-256");
+      // Henter parameteret rawString og tilføjer grgioujgjio til kodeordet.
+      rawString = rawString + "jiogrjoigrog";
 
       // We convert to byte array
       byte[] hash = digest.digest(rawString.getBytes(StandardCharsets.UTF_8));
