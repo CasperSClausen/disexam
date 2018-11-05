@@ -1,5 +1,6 @@
 package com.cbsexam;
 
+import cache.OrderCache;
 import com.google.gson.Gson;
 import controllers.OrderController;
 import java.util.ArrayList;
@@ -48,21 +49,25 @@ public class OrderEndpoints {
   public Response getOrders() {
 
     // Call our controller-layer in order to get the order from the DB
-    ArrayList<Order> orders = OrderController.getOrders();
+    ArrayList<Order> orders = orderCache.getOrders(false);
 
     // TODO: Add Encryption to JSON (FIXED)
     // We convert the java object to json with GSON library imported in Maven
     String json = new Gson().toJson(orders);
-    /*
-    - Json bruges til dataudvikling, og gør at vi mennesker kan læse det. Derfor json =.
-    - Encryption er klassen hvor kryptering finder sted.
-    - XOR laver værdierne om til binære tal.
-    */
+
+    // Json bruges til dataudvikling, og gør at vi mennesker kan læse det. Derfor json =.
+    // Encryption er klassen hvor kryptering finder sted.
+    // XOR laver værdierne om til binære tal.
+
     json = Encryption.encryptDecryptXOR(json);
 
     // Return a response with status 200 and JSON as type
     return Response.status(200).type(MediaType.TEXT_PLAIN_TYPE).entity(json).build();
   }
+
+  // Jeg opretter her et objekt af klassen OrderCache, så klassen kan kaldes. Så getOrders nu bliver brugt.
+  // Ligger den udenfor ovenstående metode, så den kan benyttes i andre klasser.
+  OrderCache orderCache = new OrderCache();
 
   @POST
   @Path("/")

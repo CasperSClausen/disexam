@@ -1,5 +1,6 @@
 package com.cbsexam;
 
+import cache.ProductCache;
 import com.google.gson.Gson;
 import controllers.ProductController;
 import java.util.ArrayList;
@@ -30,11 +31,10 @@ public class ProductEndpoints {
     // TODO: Add Encryption to JSON (FIXED)
     // We convert the java object to json with GSON library imported in Maven
     String json = new Gson().toJson(product);
-    /*
-    - Json bruges til dataudvikling, og gør at vi mennesker kan læse det. Derfor json =.
-    - Encryption er klassen hvor kryptering finder sted.
-    - XOR laver værdierne om til binære tal.
-    */
+
+    // Json bruges til dataudvikling, og gør at vi mennesker kan læse det. Derfor json =.
+    // Encryption er klassen hvor kryptering finder sted.
+    // XOR laver værdierne om til binære tal.
     json = Encryption.encryptDecryptXOR(json);
 
     // Return a response with status 200 and JSON as type
@@ -44,10 +44,15 @@ public class ProductEndpoints {
   /** @return Responses */
   @GET
   @Path("/")
-  public Response getProducts() {
 
-    // Call our controller-layer in order to get the order from the DB
-    ArrayList<Product> products = ProductController.getProducts();
+  public Response getProducts()
+
+  {
+
+    // Call our controller-layer in order to get the order from the DB.
+    // True gør at den tjekker vores Product igennem, om der er kommet nogle nye ændringer.
+    // Havde der stået false, så ville den ikke blive gennemtjekket.
+    ArrayList<Product> products = productCache.getProducts(false);
 
     // TODO: Add Encryption to JSON (FIXED)
     // We convert the java object to json with GSON library imported in Maven
@@ -62,6 +67,10 @@ public class ProductEndpoints {
     // Return a response with status 200 and JSON as type
     return Response.status(200).type(MediaType.TEXT_PLAIN_TYPE).entity(json).build();
   }
+
+  // Jeg opretter her et objekt af klassen ProductCache, så klassen kan kaldes. Så getProducts nu bliver brugt.
+  // Ligger den udenfor ovenstående metode, så den kan benyttes i andre klasser.
+  ProductCache productCache = new ProductCache();
 
   @POST
   @Path("/")

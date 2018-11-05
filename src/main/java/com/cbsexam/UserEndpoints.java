@@ -67,6 +67,10 @@ public class UserEndpoints {
     return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json).build();
   }
 
+
+
+  // Mangler at oprette metode ligesom der er gjort i de andre Endpoints
+
   @POST
   @Path("/")
   @Consumes(MediaType.APPLICATION_JSON)

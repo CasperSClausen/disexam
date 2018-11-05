@@ -116,7 +116,7 @@ public class UserController {
             + user.getLastname()
             + "', '"
                 //Der henvises til Hashing klassen, og henter instansen vi har kaldt md5.
-            + Hashing.md5(user.getPassword())
+            + Hashing.sha(user.getPassword())
             + "', '"
             + user.getEmail()
             + "', "

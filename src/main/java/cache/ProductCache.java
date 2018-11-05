@@ -21,7 +21,6 @@ public class ProductCache {
     this.ttl = Config.getProductTtl();
   }
 
-  // Laver en metode, som indeholder produkterne. Finde ud af hvor getProducts skal kaldes henne.
   public ArrayList<Product> getProducts(Boolean forceUpdate) {
 
     // If we wish to clear cache, we can set force update.
