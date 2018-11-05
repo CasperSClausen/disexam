@@ -106,8 +106,12 @@ public class UserEndpoints {
     return Response.status(400).entity("Endpoint not implemented yet").build();
   }
 
-  // TODO: Make the system able to delete users
-  public Response deleteUser(String x) {
+  // TODO: Make the system able to delete users (FIXED)
+  @POST
+  @Path("/delete/{idUser}")
+  public Response deleteUser(@PathParam("idUser") int id) {
+
+    UserController.delete(id);
 
     // Return a response with status 200 and JSON as type
     return Response.status(400).entity("Endpoint not implemented yet").build();
