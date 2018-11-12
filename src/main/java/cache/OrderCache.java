@@ -43,5 +43,3 @@ public class OrderCache {
         return this.orders;
     }
 }
-
-//ProductCache productCache = new ProductCache(); FÅ DENNE TIL AT VIRKE I USERCACHE OG ORDERCACHE

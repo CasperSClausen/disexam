@@ -70,7 +70,7 @@ public class ProductEndpoints {
 
   // Jeg opretter her et objekt af klassen ProductCache, så klassen kan kaldes. Så getProducts nu bliver brugt.
   // Ligger den udenfor ovenstående metode, så den kan benyttes i andre klasser.
-  // static: ????
+  // Static da den skal hente det én gang.
   static ProductCache productCache = new ProductCache();
 
   @POST

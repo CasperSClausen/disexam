@@ -124,8 +124,6 @@ public class UserEndpoints {
     }
   }
 
-
-  // TODO: Make the system able to delete users
   @DELETE
   @Path("/delete/")
 // TODO: Make the system able to delete users (FIXED)

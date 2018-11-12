@@ -67,7 +67,8 @@ public class OrderEndpoints {
 
   // Jeg opretter her et objekt af klassen OrderCache, så klassen kan kaldes. Så getOrders nu bliver brugt.
   // Ligger den udenfor ovenstående metode, så den kan benyttes i andre klasser.
-  OrderCache orderCache = new OrderCache();
+  // Static da den skal hente det én gang.
+  static OrderCache orderCache = new OrderCache();
 
   @POST
   @Path("/")
