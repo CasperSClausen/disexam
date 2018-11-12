@@ -70,7 +70,8 @@ public class ProductEndpoints {
 
   // Jeg opretter her et objekt af klassen ProductCache, så klassen kan kaldes. Så getProducts nu bliver brugt.
   // Ligger den udenfor ovenstående metode, så den kan benyttes i andre klasser.
-  ProductCache productCache = new ProductCache();
+  // static: ????
+  static ProductCache productCache = new ProductCache();
 
   @POST
   @Path("/")
@@ -91,7 +92,7 @@ public class ProductEndpoints {
       // Return a response with status 200 and JSON as type
       return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
     } else {
-      return Response.status(400).entity("Could not create user").build();
+      return Response.status(400).entity("Kan ikke oprette bruger").build();
     }
   }
 }

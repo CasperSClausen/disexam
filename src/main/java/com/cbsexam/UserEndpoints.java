@@ -4,11 +4,7 @@ import cache.UserCache;
 import com.google.gson.Gson;
 import controllers.UserController;
 import java.util.ArrayList;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.User;
@@ -40,7 +36,14 @@ public class UserEndpoints {
 
     // Return the user with the status code 200
     // TODO: What should happen if something breaks down?
-    return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
+
+    if (user != null) {
+      // Return a response with status 200 and JSON as type
+      return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
+    } else {
+      // Return a response with status 400
+      return Response.status(400).entity("Kan ikke finde bruger").build();
+    }
   }
 
 
@@ -71,7 +74,8 @@ public class UserEndpoints {
 
   // Jeg opretter her et objekt af klassen UserCache, så klassen kan kaldes. Så getUsers nu bliver brugt.
   // Ligger den udenfor ovenstående metode, så den kan benyttes i andre klasser.
-  UserCache userCache = new UserCache();
+  //Static gør den kan hentes en gang
+  static UserCache userCache = new UserCache();
 
   @POST
   @Path("/")
@@ -92,35 +96,57 @@ public class UserEndpoints {
       // Return a response with status 200 and JSON as type
       return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
     } else {
+      // Return a response with status 400
+      return Response.status(400).entity("Kan ikke oprette bruger").build();
+    }
+  }
+
+
+  // TODO: Make the system able to login users and assign them a token to use throughout the system. (FIXED)
+  @POST
+  @Path("/login")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public Response loginUser(String body) {
+
+
+    // Read the json from body and transfer it to a user class
+    User user = new Gson().fromJson(body, User.class);
+
+    // Get the user back with the added ID and return it to the user
+    String token = UserController.loginUser(user);
+
+    /// Return the data to the user
+    if (token != "") {
+      // Return a response with status 200 and JSON as type
+      return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(token).build();
+    } else {
       return Response.status(400).entity("Could not create user").build();
     }
   }
 
-  // TODO: Make the system able to login users and assign them a token to use throughout the system.
-  @POST
-  @Path("/login")
-  @Consumes(MediaType.APPLICATION_JSON)
-  public Response loginUser(String x) {
 
-    // Return a response with status 200 and JSON as type
-    return Response.status(400).entity("Endpoint not implemented yet").build();
-  }
+  // TODO: Make the system able to delete users
+  @DELETE
+  @Path("/delete/")
+// TODO: Make the system able to delete users (FIXED)
+  public Response deleteUser(String token) {
 
-  // TODO: Make the system able to delete users (FIXED)
-  @POST
-  @Path("/delete/{idUser}")
-  public Response deleteUser(@PathParam("idUser") int id) {
+    // Return the data to the user
+    if (UserController.deleteUser(token)) {
 
-    UserController.delete(id);
+      // Return a response with status 200 and JSON as type
+      return Response.status(200).entity("Bruger er slettet fra systemet").build();
+    } else {
+      // Return a response with status 400
+      return Response.status(400).entity("Brugeren kan ikke findes i systemet").build();
+    }
 
-    // Return a response with status 200 and JSON as type
-    return Response.status(400).entity("Endpoint not implemented yet").build();
   }
 
   // TODO: Make the system able to update users
   public Response updateUser(String x) {
 
-    // Return a response with status 200 and JSON as type
+    // Return a response with status 400 and JSON as type
     return Response.status(400).entity("Endpoint not implemented yet").build();
   }
 }

@@ -103,6 +103,8 @@ public class ProductController {
     ResultSet rs = dbCon.query(sql);
     ArrayList<Product> products = new ArrayList<Product>();
 
+    // Email = og password = det hashede password.
+
     try {
       while (rs.next()) {
         Product product =

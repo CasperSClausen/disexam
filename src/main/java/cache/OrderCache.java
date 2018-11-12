@@ -36,6 +36,7 @@ public class OrderCache {
             // Set orders for the instance and set created timestamp
             this.orders = orders;
             this.created = System.currentTimeMillis() / 1000L;
+            System.out.println("Cache bliver ikke benyttet");
         }
 
         // Return the documents
