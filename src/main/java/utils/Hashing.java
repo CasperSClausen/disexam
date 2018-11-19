@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import org.bouncycastle.util.encoders.Hex;
 
 public final class Hashing {
+  public String salt = "Capper";
 
   // TODO: You should add a salt and make this secure (FIXED)
   public static String md5(String rawString) {

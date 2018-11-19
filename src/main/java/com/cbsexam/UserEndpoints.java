@@ -14,10 +14,8 @@ import utils.Log;
 @Path("user")
 public class UserEndpoints {
 
-  /**
-   * @param idUser
-   * @return Responses
-   */
+   // @param idUser
+   // @return Responses
   @GET
   @Path("/{idUser}")
   public Response getUser(@PathParam("idUser") int idUser) {
@@ -26,16 +24,16 @@ public class UserEndpoints {
     User user = UserController.getUser(idUser);
 
     // TODO: Add Encryption to JSON (FIXED)
+
     // Convert the user object to json in order to return the object
     String json = new Gson().toJson(user);
-    /* json bruges til dataudvikling, og gør at vi mennesker kan læse det. Derfor json =.
-    Encryption er klassen hvor kryptering finder sted
-    XOR laver værdierne om til binære tal.
-    */
+
+    // json bruges til dataudvikling, og gør at vi mennesker kan læse det. Derfor json =.
+    // Encryption er klassen hvor kryptering finder sted
+    // XOR laver værdierne om til binære tal.
     json = Encryption.encryptDecryptXOR(json);
 
-    // Return the user with the status code 200
-    // TODO: What should happen if something breaks down?
+    // TODO: What should happen if something breaks down? (FIXED)
 
     if (user != null) {
       // Return a response with status 200 and JSON as type
@@ -47,7 +45,7 @@ public class UserEndpoints {
   }
 
 
-  /** @return Responses */
+  // @return Responses
   @GET
   @Path("/")
   public Response getUsers() {
@@ -59,14 +57,14 @@ public class UserEndpoints {
     ArrayList<User> users = userCache.getUsers(false);
 
     // TODO: Add Encryption to JSON (FIXED)
+
     // Transfer users to json in order to return it to the user
     String json = new Gson().toJson(users);
-    /* json bruges til dataudvikling, og gør at vi mennesker kan læse det. Derfor json =.
-    Encryption er klassen hvor kryptering finder sted
-    XOR laver værdierne om til binære tal.
-    */
-    json = Encryption.encryptDecryptXOR(json);
 
+    // json bruges til dataudvikling, og gør at vi mennesker kan læse det. Derfor json =.
+    // Encryption er klassen hvor kryptering finder sted
+    // XOR laver værdierne om til binære tal.
+    json = Encryption.encryptDecryptXOR(json);
 
     // Return the users with the status code 200
     return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json).build();
@@ -120,18 +118,20 @@ public class UserEndpoints {
       // Return a response with status 200 and JSON as type
       return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(token).build();
     } else {
-      return Response.status(400).entity("Could not create user").build();
+      return Response.status(400).entity("Kan ikke logge ind med den ønskede email og password.").build();
     }
   }
 
   @DELETE
-  @Path("/delete/")
+  @Path("/delete")
 // TODO: Make the system able to delete users (FIXED)
-  public Response deleteUser(String token) {
+  //body er attributter fra User klassen
+  public Response deleteUser(String body) {
 
-    // Return the data to the user
-    if (UserController.deleteUser(token)) {
+    User user = new Gson().fromJson(body, User.class);
 
+    // Token, da vi vil sikre os at vi sletter den rigtige bruger
+    if (UserController.deleteUser(user.getToken())) {
       // Return a response with status 200 and JSON as type
       return Response.status(200).entity("Bruger er slettet fra systemet").build();
     } else {
@@ -140,11 +140,18 @@ public class UserEndpoints {
     }
 
   }
-
+  @POST
+  @Path("/update")
   // TODO: Make the system able to update users
-  public Response updateUser(String x) {
+  public Response updateUser(String body) {
+    User user = new Gson().fromJson(body, User.class);
 
+    if (UserController.updateUser(user, user.getToken())) {
+      userCache.getUsers(true);
+      return Response.status(200).entity("Brugeren blev opdateret").build();
+
+    }else {
     // Return a response with status 400 and JSON as type
-    return Response.status(400).entity("Endpoint not implemented yet").build();
+    return Response.status(400).entity("Brugeren findes ikke i systemet").build();
   }
-}
+}}

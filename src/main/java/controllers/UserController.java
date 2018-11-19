@@ -15,6 +15,8 @@ import model.User;
 import utils.Hashing;
 import utils.Log;
 
+import javax.sound.midi.Soundbank;
+
 public class UserController {
 
   private static DatabaseController dbCon;
@@ -98,20 +100,21 @@ public class UserController {
                         Algorithm algorithm = Algorithm.HMAC256("secret");
                         token = JWT.create()
                                 .withClaim("userid", userlogin.getId())
-                                .withIssuer("auth0")
+                                .withIssuer("cbsexam")
                                 .sign(algorithm);
+                        return token;
                     } catch (JWTCreationException exception) {
                         //Invalid Signing configuration / Couldn't convert Claims.
                         System.out.println(exception.getMessage());
-                    } finally {
-                        return token;
+                        return "";
                     }
-                }
+                    }
             } else {
                 System.out.println("Kan ikke finde bruger");
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+            return "";
         }
 
         // Return null
@@ -217,12 +220,12 @@ public class UserController {
         if (dbCon == null) {
             dbCon = new DatabaseController();
         }
-
+    //Laver det om til noget man forstår
         DecodedJWT jwt = null;
         try {
             Algorithm algorithm = Algorithm.HMAC256("secret");
             JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("auth0")
+                    .withIssuer("cbsexam")
                     .build(); //Reusable verifier instance
             jwt = verifier.verify(token);
         } catch (JWTVerificationException exception) {
@@ -233,4 +236,32 @@ public class UserController {
 
         return dbCon.deleteUser(sql);
     }
-}
+
+    public static boolean updateUser(User user, String token) {
+
+        // Check for DB Connection
+        if (dbCon == null) {
+            dbCon = new DatabaseController();
+        }
+
+        // Kan tjekke decoded her --> https://jwt.io
+        // JSON Web Token (JWT) is a compact URL-safe means of representing claims to be transferred between two parties.
+        DecodedJWT jwt = null;
+
+        try {
+            Algorithm algorithm = Algorithm.HMAC256("secret");
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withIssuer("cbsexam")
+                    .build(); //Reusable verifier instance
+            jwt = verifier.verify(token);
+        } catch (JWTVerificationException exception) {
+            System.out.println(exception.getMessage());
+        }
+
+        String sql =
+                "UPDATE user SET first_name = '" + user.getFirstname() + "', last_name ='" + user.getLastname() + "', password = '" + Hashing.sha(user.getPassword()) + "', email ='" + user.getEmail()
+                        + "' WHERE id = " + jwt.getClaim("userId").asInt();
+
+// Return user/token
+        return dbCon.updateUser(sql);
+}}
