@@ -108,45 +108,46 @@ public class DatabaseController {
 
     // Return the resultset which at this point will be null
     return result;
-  }
+  }}
 
-  public boolean deleteUser(String sql) {
-    if (connection == null) {
-      connection = getConnection();
-    }
-    try {
-      PreparedStatement deleteUser = connection.prepareStatement(sql);
-      deleteUser.executeUpdate();
-      return true;
-    } catch (SQLException e) {
-        System.out.println(e.getMessage());
-    }
-    return false;
-  }
+//  public boolean deleteUser(String sql) {
+//    if (connection == null) {
+//      connection = getConnection();
+//    }
+//    try {
+//      PreparedStatement deleteUser = connection.prepareStatement(sql);
+//      deleteUser.executeUpdate();
+//      return true;
+//    } catch (SQLException e) {
+//        System.out.println(e.getMessage());
+//    }
+//    return false;
+//  }
 
-  // Opretter forbindelse til DB når der skal logges ind
-  public void loginUser(String sql) {
-    if (connection == null) {
-      connection = getConnection();
-    }
-    try {
-      PreparedStatement statement = connection.prepareStatement(sql);
-      statement.executeUpdate();
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-    }
-  }
+//  Opretter forbindelse til DB når der skal logges ind
+//  public void loginUser(String sql) {
+//    if (connection == null) {
+//      connection = getConnection();
+//    }
+//    try {
+//      PreparedStatement statement = connection.prepareStatement(sql);
+//      statement.executeUpdate();
+//    } catch (SQLException e) {
+//      System.out.println(e.getMessage());
+//    }
+//  }
 
-  public boolean updateUser(String sql) {
-    if (connection == null) {
-      connection = getConnection();
-    }
-    try {
-      PreparedStatement statement = connection.prepareStatement(sql);
-      statement.executeUpdate();
-      return true;
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-    }return false;
-  }
-}
+//  // Find ud af, hvordan vi kan optimere og refere til ovenstående kode, fremfor at lave nye metoder.
+//  public boolean updateUser(String sql) {
+//    if (connection == null) {
+//      connection = getConnection();
+//    }
+//    try {
+//      PreparedStatement statement = connection.prepareStatement(sql);
+//      statement.executeUpdate();
+//      return true;
+//    } catch (SQLException e) {
+//      System.out.println(e.getMessage());
+//    }return false;
+//  }
+//}

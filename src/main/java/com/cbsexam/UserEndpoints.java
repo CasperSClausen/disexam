@@ -122,6 +122,7 @@ public class UserEndpoints {
     }
   }
 
+
   @DELETE
   @Path("/delete")
 // TODO: Make the system able to delete users (FIXED)
@@ -142,7 +143,7 @@ public class UserEndpoints {
   }
   @POST
   @Path("/update")
-  // TODO: Make the system able to update users
+  // TODO: Make the system able to update users (FIXED)
   public Response updateUser(String body) {
     User user = new Gson().fromJson(body, User.class);
 

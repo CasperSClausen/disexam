@@ -16,7 +16,7 @@ public final class Hashing {
       MessageDigest md = MessageDigest.getInstance("MD5");
       // Henter parameteret rawString og tilføjer grgioujgjio til password. Vi tilføjer altså noget salt til vores password.
       // MD5 er en kendt xxxxx og den kan dekrypteres lettere end min SHA-256.
-      // rawString = rawString + "grgioujgjio";
+      rawString = rawString + Config.getSaltKey();
 
       // We convert to byte array
       byte[] byteArray = md.digest(rawString.getBytes());
@@ -48,7 +48,7 @@ public final class Hashing {
       MessageDigest digest = MessageDigest.getInstance("SHA-256");
       // Henter parameteret rawString og tilføjer grgioujgjio til password. Vi tilføjer altså noget salt til vores password.
       // SHA-256 går langsommere end ovenstående, men den er svære at bryde ned og derfor mere sikker.
-      rawString = rawString + "jiogrjoigrog";
+      rawString = rawString + Config.getSaltKey();
 
       // We convert to byte array
       byte[] hash = digest.digest(rawString.getBytes(StandardCharsets.UTF_8));
@@ -64,5 +64,10 @@ public final class Hashing {
     }
 
     return rawString;
+  }
+
+  public String hashWithSalt (String str) {
+    String salt = str + this.salt;
+            return sha(salt);
   }
 }

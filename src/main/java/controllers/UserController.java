@@ -77,18 +77,19 @@ public class UserController {
         // 'afgrænser email, altså bestemmer hvor langt den læser
         String sql = "SELECT * FROM user where email='" + user.getEmail() + "'AND password ='" + user.getPassword() + "'";
 
-        dbCon.loginUser(sql);
+        dbCon.insert(sql);
 
         // Actually do the query
         ResultSet resultSet = dbCon.query(sql);
+
+        // Deklerere den uden nogen værdi.
         User userlogin;
-        String token = null;
+        String token;
 
         try {
             // Get first object, since we only have one
             if (resultSet.next()) {
-                userlogin =
-                        new User(
+                userlogin = new User (
                                 resultSet.getInt("id"),
                                 resultSet.getString("first_name"),
                                 resultSet.getString("last_name"),
@@ -120,19 +121,6 @@ public class UserController {
         // Return null
         return "";
 
-    }
-
-    public static void updateUser(int id) {
-
-        // Check for DB Connection
-        if (dbCon == null) {
-            dbCon = new DatabaseController();
-
-        }
-
-        String sql = "SELECT FROM user WHERE id =" + id;
-
-        // dbCon.updateUser(sql);
     }
 
    // Get all users in database
@@ -234,7 +222,7 @@ public class UserController {
 
         String sql = "DELETE FROM user WHERE id = " + jwt.getClaim("userid").asInt();
 
-        return dbCon.deleteUser(sql);
+        return dbCon.insert(sql) == 1;
     }
 
     public static boolean updateUser(User user, String token) {
@@ -260,8 +248,8 @@ public class UserController {
 
         String sql =
                 "UPDATE user SET first_name = '" + user.getFirstname() + "', last_name ='" + user.getLastname() + "', password = '" + Hashing.sha(user.getPassword()) + "', email ='" + user.getEmail()
-                        + "' WHERE id = " + jwt.getClaim("userId").asInt();
+                        + "' WHERE id = " + jwt.getClaim("userid").asInt();
 
 // Return user/token
-        return dbCon.updateUser(sql);
+        return dbCon.insert(sql) == 1;
 }}
