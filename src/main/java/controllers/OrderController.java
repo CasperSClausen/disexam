@@ -172,7 +172,7 @@ public class OrderController {
       }
 
       order.setLineItems(items);
-      // connection.commit();
+      connection.commit();
 
     } catch (SQLException e) {
       System.out.println(e.getMessage());

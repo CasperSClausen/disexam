@@ -13,11 +13,11 @@ public final class Encryption {
       // Dvs. den lokalt i min computer i og med den ligger i config.json
       char[] key = Config.getEncryptionkey();
 
-
       // Stringbuilder enables you to play around with strings and make useful stuff
       StringBuilder thisIsEncrypted = new StringBuilder();
 
       // TODO: This is where the magic of XOR is happening. Are you able to explain what is going on?
+      //Hvis vores rawString's værdi er større end 0, så vil den plusse med 1.
       for (int i = 0; i < rawString.length(); i++) {
         thisIsEncrypted.append((char) (rawString.charAt(i) ^ key[i % key.length]));
       }

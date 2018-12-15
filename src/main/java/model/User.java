@@ -18,9 +18,7 @@ public class User {
     this.email = email;
   }
 
-  public String getToken() {
-    return token;
-  }
+  public String getToken() { return token; }
 
   public int getId() {
     return id;

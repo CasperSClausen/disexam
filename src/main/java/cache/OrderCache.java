@@ -11,7 +11,7 @@ public class OrderCache {
     // List of orders
     private ArrayList<Order> orders;
 
-    // Time cache should live. Definere en variabel vi kalder ttl.
+    // Time cache should live. Definere en variabel vi kalder ttl. ttl = time-to-live.
     private long ttl;
 
     // Sets when the cache has been created
@@ -36,7 +36,6 @@ public class OrderCache {
             // Set orders for the instance and set created timestamp
             this.orders = orders;
             this.created = System.currentTimeMillis() / 1000L;
-            System.out.println("Cache bliver ikke benyttet");
         }
 
         // Return the documents

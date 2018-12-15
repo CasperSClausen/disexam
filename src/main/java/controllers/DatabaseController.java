@@ -16,11 +16,9 @@ public class DatabaseController {
     connection = getConnection();
   }
 
-  /**
-   * Get database connection
-   *
-   * @return a Connection object
-   */
+  // Get database connection
+  // @return a Connection object
+
   public static Connection getConnection() {
     try {
       // Set the dataabase connect with the data from the config

@@ -31,13 +31,12 @@ public class OrderEndpoints {
     // TODO: Add Encryption to JSON (FIXED)
     // We convert the java object to json with GSON library imported in Maven
     String json = new Gson().toJson(order);
-    /*
-    - Json bruges til dataudvikling, og gør at vi mennesker kan læse det. Derfor json =.
-    - Encryption er klassen hvor kryptering finder sted
-    - XOR laver værdierne om til binære tal.
-    */
-    json = Encryption.encryptDecryptXOR(json);
 
+    // Json bruges til dataudvikling, og gør at vi mennesker kan læse det. Derfor json =.
+    // Encryption er klassen hvor kryptering finder sted
+    // XOR laver værdierne om til binære tal.
+
+    json = Encryption.encryptDecryptXOR(json);
 
     // Return a response with status 200 and JSON as type
     return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json).build();
@@ -90,7 +89,7 @@ public class OrderEndpoints {
       return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
     } else {
       // Return a response with status 400 and a message in text
-      return Response.status(400).entity("Kan ikke oprette bruger").build();
+      return Response.status(400).entity("Kan ikke oprette ordre").build();
     }
   }
 }

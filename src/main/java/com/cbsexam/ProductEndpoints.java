@@ -92,7 +92,7 @@ public class ProductEndpoints {
       // Return a response with status 200 and JSON as type
       return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
     } else {
-      return Response.status(400).entity("Kan ikke oprette bruger").build();
+      return Response.status(400).entity("Kan ikke oprette produkt").build();
     }
   }
 }

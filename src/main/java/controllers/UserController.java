@@ -12,6 +12,7 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import model.User;
+import utils.Config;
 import utils.Hashing;
 import utils.Log;
 
@@ -27,15 +28,15 @@ public class UserController {
 
   public static User getUser(int id) {
 
-    // Check for connection
+    // Ser efter forbindelse
     if (dbCon == null) {
       dbCon = new DatabaseController();
     }
 
-    // Build the query for DB
+    // Laver en kø i databasen
     String sql = "SELECT * FROM user where id=" + id;
 
-    // Actually do the query
+    // Her laver den helt præcist køen
     ResultSet rs = dbCon.query(sql);
     User user = null;
 
@@ -98,7 +99,7 @@ public class UserController {
 
                 if (userlogin != null) {
                     try {
-                        Algorithm algorithm = Algorithm.HMAC256("secret");
+                        Algorithm algorithm = Algorithm.HMAC256(Config.getSecretKey());
                         token = JWT.create()
                                 .withClaim("userid", userlogin.getId())
                                 .withIssuer("cbsexam")
@@ -211,7 +212,7 @@ public class UserController {
     //Laver det om til noget man forstår
         DecodedJWT jwt = null;
         try {
-            Algorithm algorithm = Algorithm.HMAC256("secret");
+            Algorithm algorithm = Algorithm.HMAC256(Config.getSecretKey());
             JWTVerifier verifier = JWT.require(algorithm)
                     .withIssuer("cbsexam")
                     .build(); //Reusable verifier instance
@@ -237,7 +238,7 @@ public class UserController {
         DecodedJWT jwt = null;
 
         try {
-            Algorithm algorithm = Algorithm.HMAC256("secret");
+            Algorithm algorithm = Algorithm.HMAC256(Config.getSecretKey());
             JWTVerifier verifier = JWT.require(algorithm)
                     .withIssuer("cbsexam")
                     .build(); //Reusable verifier instance

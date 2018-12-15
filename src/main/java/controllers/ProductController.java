@@ -91,6 +91,7 @@ public class ProductController {
    *
    * @return
    */
+
   public static ArrayList<Product> getProducts() {
 
     if (dbCon == null) {

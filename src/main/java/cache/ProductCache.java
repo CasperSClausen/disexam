@@ -36,7 +36,6 @@ public class ProductCache {
       // Set products for the instance and set created timestamp
       this.products = products;
       this.created = System.currentTimeMillis() / 1000L;
-      System.out.println("Cache bliver ikke benyttet");
     }
 
     // Return the documents
