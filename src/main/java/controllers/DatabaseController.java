@@ -108,7 +108,9 @@ public class DatabaseController {
     return result;
   }}
 
-//  public boolean deleteUser(String sql) {
+// I stedet for at køre det hele igennem insert, så kunne man have 3 metoder, som kører det samme. Det vil bare være redudant kode.
+
+// public boolean deleteUser(String sql) {
 //    if (connection == null) {
 //      connection = getConnection();
 //    }
@@ -135,7 +137,6 @@ public class DatabaseController {
 //    }
 //  }
 
-//  // Find ud af, hvordan vi kan optimere og refere til ovenstående kode, fremfor at lave nye metoder.
 //  public boolean updateUser(String sql) {
 //    if (connection == null) {
 //      connection = getConnection();
